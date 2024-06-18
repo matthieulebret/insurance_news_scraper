@@ -66,9 +66,9 @@ for link in links:
     summaries.append(article.summary)
     texts.append(article.text)
  except:
-     keywords.append('N/A')
-     summaries.append('N/A')
-     texts.append('N/A')
+     keywords.append(['N/A'])
+     summaries.append(['N/A'])
+     texts.append(['N/A'])
 news_df['Keywords']=keywords
 news_df['Summary']=summaries
 news_df['Full Text']=texts
@@ -78,7 +78,7 @@ for text in texts:
     try:
         sentiments.append(SentimentIntensityAnalyzer().polarity_scores(text)['compound'])
     except:
-        sentiments.append('N/A')
+        sentiments.append(['N/A'])
 
 news_df['Sentiment'] = sentiments
 news_df = news_df[['Time','Title','Summary','Sentiment', 'Full Text','Author', 'Source','Keywords','Link']]
