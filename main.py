@@ -7,7 +7,7 @@ from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import streamlit as st
 
 nltk.download('vader_lexicon')
-nltk.download('punks')
+nltk.download('punkt')
 
 # Search Query
 
