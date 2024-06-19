@@ -6,12 +6,25 @@ import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 import streamlit as st
 
-nltk.download('vader_lexicon')
-nltk.download('punkt')
+st.set_page_config(layout='wide')
+
+@st.cache_resource
+def nltkvader():
+    return nltk.download('vader_lexicon')
+
+@st.cache_resource
+def nltkpunkt():
+    return nltk.download('punkt')
+
+nltkvader()
+nltkpunkt()
 
 # Search Query
 
-st.title("My insurance news scraper")
+
+st.title("Business news scraper")
+
+
 
 with st.form('Select search criteria and horizon'):
     query = st.text_input('Please input news query')
@@ -81,12 +94,10 @@ for text in texts:
         sentiments.append(['N/A'])
 
 news_df['Sentiment'] = sentiments
-news_df = news_df[['Time','Title','Summary','Sentiment', 'Full Text','Author', 'Source','Keywords','Link']]
+news_df = news_df[['Time','Title','Summary','Sentiment','Link', 'Source', 'Author','Keywords']]
+news_df['Link']=news_df['Link'].apply(lambda x: str(x))
 
-st.write(news_df)
+st.data_editor(news_df,column_config={'Link':st.column_config.LinkColumn(display_text='Full article')})
 
 
-
-# Write to CSV
-# news_df.to_csv('news.csv', index=False)
 
