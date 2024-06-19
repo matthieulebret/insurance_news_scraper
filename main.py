@@ -27,7 +27,7 @@ st.title("Business news scraper")
 
 
 with st.form('Select search criteria and horizon'):
-    query = st.text_input('Please input news query')
+    query = st.text_input('Please input news query',value='Canopius')
     timeline = st.selectbox('Select time horizon',['1d','7d','1m'])
     st.form_submit_button('Submit')
 
@@ -51,6 +51,7 @@ soup = BeautifulSoup(response.text, 'html.parser')
 articles = soup.find_all('article')
 links = [article.find('a')['href'] for article in articles]
 links = [link.replace("./articles/", "https://news.google.com/articles/") for link in links]
+
 
 news_text = [article.get_text(separator='\n') for article in articles]
 news_text_split = [text.split('\n') for text in news_text]
