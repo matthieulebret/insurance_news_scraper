@@ -91,7 +91,8 @@ else:
     news_df['Summary'] = summaries
     news_df['Full Text'] = texts
 
-    fulltext = ' '.join(map(str,news_df['Full Text'].tolist()))
+    fulltextlist = news_df['Full Text'].tolist())
+    fulltext = ''.join(map(str,fulltextlist))
 
     sentiments = []
     for text in texts:
@@ -99,6 +100,7 @@ else:
             # sentiments.append(SentimentIntensityAnalyzer().polarity_scores(text)['compound'])
             art = TextBlob(text)
             sentiments.append(art.sentiment)
+            st.write(art.sentiment)
         except:
             sentiments.append(['N/A'])
 
