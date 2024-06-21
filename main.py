@@ -104,8 +104,8 @@ else:
         except:
             sentiments.append(['N/A'])
 
-    news_df['Polarity'] = [sentiment[0] for sentiment in sentiments if sentiment[0] else 0]
-    news_df['Subjectivity'] = [sentiment[1] for sentiment in sentiments if sentiment[1] else 0]
+    news_df['Polarity'] = [sentiment[0] if sentiment[0] for sentiment in sentiments else 0]
+    news_df['Subjectivity'] = [sentiment[1] if sentiment[1] for sentiment in sentiments else 0]
     news_df = news_df[['Time', 'Title', 'Summary', 'Polarity', 'Subjectivity','Link', 'Source', 'Author', 'Keywords']]
     news_df['Link'] = news_df['Link'].apply(lambda x: str(x))
 
