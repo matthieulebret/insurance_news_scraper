@@ -56,49 +56,52 @@ links = [link.replace("./articles/", "https://news.google.com/articles/") for li
 news_text = [article.get_text(separator='\n') for article in articles]
 news_text_split = [text.split('\n') for text in news_text]
 
+if len(articles) == 0:
+    st.write("No news found over the selected time period")
+else:
 
 
-news_df = pd.DataFrame({
-    'Title': [text[2] for text in news_text_split],
-    'Source': [text[0] for text in news_text_split],
-    'Time': [text[3] if len(text) > 3 else 'Missing' for text in news_text_split],
-    'Author': [text[4].split('By ')[-1] if len(text) > 4 else 'Missing' for text in news_text_split],
-    'Link': links
-})
-
-links = news_df['Link'].to_list()
-keywords = []
-summaries = []
-texts = []
-for link in links:
- try:
-    article = Article(link)
-    article.download()
-    article.parse()
-    article.nlp()
-    keywords.append(article.keywords)
-    summaries.append(article.summary)
-    texts.append(article.text)
- except:
-     keywords.append(['N/A'])
-     summaries.append(['N/A'])
-     texts.append(['N/A'])
-news_df['Keywords']=keywords
-news_df['Summary']=summaries
-news_df['Full Text']=texts
-
-sentiments = []
-for text in texts:
-    try:
-        sentiments.append(SentimentIntensityAnalyzer().polarity_scores(text)['compound'])
-    except:
-        sentiments.append(['N/A'])
-
-news_df['Sentiment'] = sentiments
-news_df = news_df[['Time','Title','Summary','Sentiment','Link', 'Source', 'Author','Keywords']]
-news_df['Link']=news_df['Link'].apply(lambda x: str(x))
-
-st.data_editor(news_df,column_config={'Link':st.column_config.LinkColumn(display_text='Full article')})
-
+    news_df = pd.DataFrame({
+        'Title': [text[2] for text in news_text_split],
+        'Source': [text[0] for text in news_text_split],
+        'Time': [text[3] if len(text) > 3 else 'Missing' for text in news_text_split],
+        'Author': [text[4].split('By ')[-1] if len(text) > 4 else 'Missing' for text in news_text_split],
+        'Link': links
+    })
+    
+    links = news_df['Link'].to_list()
+    keywords = []
+    summaries = []
+    texts = []
+    for link in links:
+     try:
+        article = Article(link)
+        article.download()
+        article.parse()
+        article.nlp()
+        keywords.append(article.keywords)
+        summaries.append(article.summary)
+        texts.append(article.text)
+     except:
+         keywords.append(['N/A'])
+         summaries.append(['N/A'])
+         texts.append(['N/A'])
+    news_df['Keywords']=keywords
+    news_df['Summary']=summaries
+    news_df['Full Text']=texts
+    
+    sentiments = []
+    for text in texts:
+        try:
+            sentiments.append(SentimentIntensityAnalyzer().polarity_scores(text)['compound'])
+        except:
+            sentiments.append(['N/A'])
+    
+    news_df['Sentiment'] = sentiments
+    news_df = news_df[['Time','Title','Summary','Sentiment','Link', 'Source', 'Author','Keywords']]
+    news_df['Link']=news_df['Link'].apply(lambda x: str(x))
+    
+    st.data_editor(news_df,column_config={'Link':st.column_config.LinkColumn(display_text='Full article')})
+    
 
 
