@@ -100,7 +100,6 @@ else:
             # sentiments.append(SentimentIntensityAnalyzer().polarity_scores(text)['compound'])
             art = TextBlob(text)
             sentiments.append(art.sentiment)
-            st.write(art.sentiment)
         except:
             sentiments.append((0,0))
 
