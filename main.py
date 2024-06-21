@@ -91,7 +91,7 @@ else:
     news_df['Summary'] = summaries
     news_df['Full Text'] = texts
 
-    fulltextlist = news_df['Full Text'].tolist())
+    fulltextlist = news_df['Full Text'].tolist()
     fulltext = ''.join(map(str,fulltextlist))
 
     sentiments = []
